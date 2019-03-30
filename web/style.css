@@ -1,0 +1,11 @@
+body{
+    background-color:#2c2f33;
+}
+#log-container { overflow: auto; height: 150px; }
+
+.log-warn { color: orange }
+.log-error { color: red }
+.log-info { color: skyblue }
+.log-log { color: silver }
+
+.log-warn, .log-error { font-weight: bold; }
