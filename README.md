@@ -1,4 +1,7 @@
-# Discord spam bots with multiple account support and more. *Made strictly for testing anti-spam for server owners*
+# THIS IS A WORK IN PROGRESS, NON FUNCTIONAL 
+
+
+### Discord spam bots with multiple account support and more. *Made strictly for testing anti-spam for server owners*
 
 
 [Contact (Twitter)](https://twitter.com/messages/compose?recipient_id=2787470244)
