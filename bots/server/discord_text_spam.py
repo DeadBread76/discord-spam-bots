@@ -6,7 +6,7 @@
 # @license CC BY-NC-ND 3.0 US | https://creativecommons.org/licenses/by-nc-nd/3.0/us/
 # @website https://github.com/Merubokkusu/discord-spam-bots/
 # @email liam@merubokkusu.com
-# @last-modified Mon Mar 18 2019 15:02:46 GMT-0400 (Eastern Daylight Time)
+# @last-modified Thu Apr 11 2019 01:45:26 GMT-0400 (Eastern Daylight Time)
 #
 
 import discord
@@ -20,6 +20,11 @@ import socket
 sys.path.append("./.")
 from config import *
 
+def writeToLog(logText):
+    print(logText)
+    f = open('log.txt', 'a')
+    f.write('\n'+logText)
+
 if(os.path.exists("proxies.txt")):
     conn = aiohttp.ProxyConnector(proxy="http://"+sys.argv[3])
     client = discord.Client(connector=conn)
@@ -32,7 +37,8 @@ spam_text = sys.argv[2]
 @client.event
 async def on_ready():
     spam_text = sys.argv[2]
-    print("Started Text Spam")
+    writeToLog(client.user.name +" Started Text Spam")
+    sys.stdout.flush()
     while not client.is_closed:
         if os.path.exists('text.txt'):
             if textRandom == False and textFull == False:
@@ -47,7 +53,7 @@ async def on_ready():
 
         await client.send_message(discord.Object(id=DiscordChannel), spam_text)
         await asyncio.sleep(SpamSpeed) 
-        print(client.user.name + ' sent ' + spam_text)
+        writeToLog(client.user.name + ' sent ' + spam_text)
 
 if ':' in token: 
     enp = token.split(':')

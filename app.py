@@ -1,3 +1,14 @@
+#
+# app.py
+# @author Merubokkusu
+# @created Sat Mar 30 2019 00:40:07 GMT-0400 (Eastern Daylight Time)
+# @copyright 2018 - 2019
+# @license CC BY-NC-ND 3.0 US | https://creativecommons.org/licenses/by-nc-nd/3.0/us/
+# @website https://github.com/Merubokkusu/discord-spam-bots/
+# @email liam@merubokkusu.com
+# @last-modified Thu Apr 11 2019 01:50:37 GMT-0400 (Eastern Daylight Time)
+#
+
 import eel
 from eel import sleep
 import sys
@@ -6,13 +17,21 @@ from subprocess import PIPE
 import os
 from config import *
 
+processes = []
+
 eel.init('web')
 web_app_options = {
     'mode': "chrome-app", #or "chrome"
     'port': 8080,
-    'chromeFlags': ["--aggressive-cache-discard  --allow-file-access-from-files"]
+    'chromeFlags': ["--window-size=1024,600", "--aggressive-cache-discard"]
 }
-
+if os.path.exists("log.txt"):
+    os.remove("log.txt")
+    log_txt = open('log.txt', 'w+')
+    log_txt.close()
+else:
+    log_txt = open('log.txt', 'w+')
+    log_txt.close()
 #Load Tokens
 if os.path.exists('tokens.txt'):
     userToken = open("tokens.txt").read().splitlines()
@@ -30,7 +49,16 @@ def save_token(s):
     file.write(s+'\n')
     file.close()
 
-
+def logToConsole():
+    last_position = 0
+    while True: #loop forever
+        with open('log.txt') as f:
+            f.seek(last_position)
+            new_data = f.read()
+            last_position = f.tell()
+        print(new_data)
+        eel.log(new_data)
+        sleep(1) #sleep some amount of time
 
 @eel.expose
 def tokenRun():
@@ -38,7 +66,7 @@ def tokenRun():
         eel.log(token);
 
 @eel.expose
-def sv_textSpam():
+def sv_textSpam(spam_text):
     proxy_number = 0
     if os.path.exists('text.txt'):
         for token in userToken:
@@ -48,13 +76,11 @@ def sv_textSpam():
     else:
         #spam_text = input("Write spam text : ")
         for token in userToken:
-            p = subprocess.Popen([pythonCommand,'bots\server\discord_text_spam.py',token,spam_text,proxy_list[proxy_number]],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE, bufsize=1)
+            p = subprocess.Popen([pythonCommand,'bots\server\discord_text_spam.py',token,spam_text,proxy_list[proxy_number]],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE, bufsize=1,universal_newlines=True)
             proxy_number += 1
             sleep(1)
-    for line in p.stdout:
-        line = line.decode("utf-8").rstrip()
-        eel.log(line);
-    #p.wait()
+    print("After")
+    p.wait()
 
 def sv_imgSpam_F():
     proxy_number = 0    
@@ -130,4 +156,4 @@ def joinServer_F():
             sleep(joinSpeed)
     p.wait()
 
-eel.start('gui.html')
+eel.start('gui.html', options=web_app_options)

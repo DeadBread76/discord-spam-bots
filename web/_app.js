@@ -1,3 +1,15 @@
+/**
+* _app.js
+* @author Merubokkusu
+* @description 
+* @created Sat Mar 30 2019 00:40:08 GMT-0400 (Eastern Daylight Time)
+* @copyright 2018 - 2019
+* @license CC BY-NC-ND 3.0 US | https://creativecommons.org/licenses/by-nc-nd/3.0/us/
+* @website https://github.com/Merubokkusu/discord-spam-bots/
+* @email liam@merubokkusu.com
+* @last-modified Sun Mar 31 2019 18:42:42 GMT-0400 (Eastern Daylight Time)
+*/
+
 rewireLoggingToElement(
     () => document.getElementById("log"),
     () => document.getElementById("log-container"), true);
@@ -56,7 +68,6 @@ submit.onclick = function () {
 }
 
 document.getElementById("test_button").onclick = function () {
-    console.error(document.getElementById('text_spam').value);
     eel.sv_textSpam(document.getElementById('text_spam').value);
     
 }
